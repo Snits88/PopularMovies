@@ -1,38 +1,64 @@
 package com.android.angelo.popularmovies;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+
+import com.android.angelo.popularmovies.Model.MovieListTO;
+import com.android.angelo.popularmovies.Utils.JsonUtils;
+import com.android.angelo.popularmovies.Utils.NetworkUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.net.URL;
 
 public class MainActivity extends AppCompatActivity
         implements MoviesAdapter.ListItemClickListener{
+
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     private static final int NUM_LIST_ITEMS = 20;
 
     private MoviesAdapter mAdapter;
     private RecyclerView mMoviesList;
+    private ProgressBar mProgressBar;
+    private ImageView mImageError;
+    private String key;
+    private String language;
+    private static final int FIRST_PAGE_NUMBER = 1;
+    private static final String FIRST_REST_CALL = "movie/popular";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mImageError = findViewById(R.id.image_error);
+        mImageError.setImageResource(R.drawable.server_error);
+        mProgressBar = findViewById(R.id.main_progress);
+
         mMoviesList = findViewById(R.id.main_recycler);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         mMoviesList.setLayoutManager(layoutManager);
 
         mMoviesList.setHasFixedSize(true);
 
         mAdapter = new MoviesAdapter(NUM_LIST_ITEMS, this);
         mMoviesList.setAdapter(mAdapter);
+
+        key = getString(R.string.api_key);
+        language = getString(R.string.language);
         firstLoadMovies();
     }
 
@@ -64,6 +90,35 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void firstLoadMovies(){
-
+        Log.d(TAG, "First Load Movies...");
+        new DownloadAsyncTask().execute(FIRST_REST_CALL,key,language);
     }
+
+    public class DownloadAsyncTask extends AsyncTask<String, Void, MovieListTO> {
+
+        @Override
+        protected void onPreExecute() {
+            mProgressBar.setVisibility(View.VISIBLE);
+            mImageError.setVisibility(View.GONE);
+        }
+
+        @Override
+        protected MovieListTO doInBackground(String... infoRestCall) {
+            URL url = NetworkUtils.buildUrl(infoRestCall[0],infoRestCall[1],infoRestCall[2],FIRST_PAGE_NUMBER);
+            try {
+                JSONObject jsonResponse = NetworkUtils.getResponseFromHttpUrl(url);
+                return JsonUtils.parseJsonToMovieListTO(jsonResponse);
+            } catch (IOException | JSONException e) {
+                mImageError.setVisibility(View.VISIBLE);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(MovieListTO result) {
+            mProgressBar.setVisibility(View.GONE);
+            mAdapter.setMovieListTO(result);
+        }
+    }
+
 }

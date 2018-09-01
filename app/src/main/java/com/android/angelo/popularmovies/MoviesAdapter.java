@@ -6,17 +6,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.android.angelo.popularmovies.Model.MovieListTO;
+
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder> {
 
     final private ListItemClickListener mOnClickListener;
     private static int viewHolderCount;
     private int nMovieItems;
+    private MovieListTO movieListTO;
 
 
-    public MoviesAdapter(int numberOfItems, ListItemClickListener listener){
+    public MoviesAdapter(int numberOfItems, ListItemClickListener clickListener){
         nMovieItems = numberOfItems;
-        mOnClickListener = listener;
+        mOnClickListener = clickListener;
         viewHolderCount = 0;
+        setMovieListTO(new MovieListTO());
     }
 
 
@@ -34,6 +38,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
     @Override
     public int getItemCount() {
         return nMovieItems;
+    }
+
+    public MovieListTO getMovieListTO() {
+        return movieListTO;
+    }
+
+    public void setMovieListTO(MovieListTO movieListTO) {
+        this.movieListTO = movieListTO;
     }
 
     class MovieViewHolder extends RecyclerView.ViewHolder
@@ -65,4 +77,5 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
     public interface ListItemClickListener {
         void onListItemClick(int clickedItemIndex);
     }
+
 }

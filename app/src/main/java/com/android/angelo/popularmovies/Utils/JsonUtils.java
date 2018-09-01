@@ -9,12 +9,18 @@ public class JsonUtils {
 
     public static MovieListTO parseJsonToMovieListTO(JSONObject json){
         MovieListTO movieListTO = new MovieListTO();
+        if(json != null){
+
+        }
         return movieListTO;
     }
 
 
     public static MovieTO parseJsonToMovieTO(JSONObject json){
         MovieTO movieTO = new MovieTO();
+        if(json != null){
+
+        }
         return movieTO;
     }
 
