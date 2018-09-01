@@ -21,6 +21,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.ParseException;
 
 public class MainActivity extends AppCompatActivity
         implements MoviesAdapter.ListItemClickListener{
@@ -108,7 +109,7 @@ public class MainActivity extends AppCompatActivity
             try {
                 JSONObject jsonResponse = NetworkUtils.getResponseFromHttpUrl(url);
                 return JsonUtils.parseJsonToMovieListTO(jsonResponse);
-            } catch (IOException | JSONException e) {
+            } catch (IOException | JSONException | ParseException e) {
                 mImageError.setVisibility(View.VISIBLE);
             }
             return null;

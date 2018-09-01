@@ -7,9 +7,9 @@ public class MovieTO {
     private int vote_count;
     private int id;
     private boolean video;
-    private float vote_avarage;
+    private double vote_avarage;
     private String title;
-    private float popularity;
+    private double popularity;
     private String poster_path;
     private String original_language;
     private String original_title;
@@ -45,11 +45,11 @@ public class MovieTO {
         this.video = video;
     }
 
-    public float getVote_avarage() {
+    public double getVote_avarage() {
         return vote_avarage;
     }
 
-    public void setVote_avarage(float vote_avarage) {
+    public void setVote_avarage(double vote_avarage) {
         this.vote_avarage = vote_avarage;
     }
 
@@ -61,11 +61,11 @@ public class MovieTO {
         this.title = title;
     }
 
-    public float getPopularity() {
+    public double getPopularity() {
         return popularity;
     }
 
-    public void setPopularity(float popularity) {
+    public void setPopularity(double popularity) {
         this.popularity = popularity;
     }
 
