@@ -50,6 +50,7 @@ public class JsonUtils {
                 MovieTO movie = parseJsonToMovieTO(results.getJSONObject(i));
                 movies.add(movie);
             }
+            movieListTO.setMovies(movies);
         }
         return movieListTO;
     }
