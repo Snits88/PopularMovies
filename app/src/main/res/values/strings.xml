@@ -4,4 +4,5 @@
     <string name="error_description">Problem with connection</string>
     <string name="api_key"></string>
     <string name="language">it-IT</string>
+    <string name="movie_poster">Movie Poster</string>
 </resources>

@@ -7,10 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
-import java.text.FieldPosition;
 import java.text.ParseException;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -50,6 +47,7 @@ public class JsonUtils {
                 MovieTO movie = parseJsonToMovieTO(results.getJSONObject(i));
                 movies.add(movie);
             }
+            movieListTO.setMovies(movies);
         }
         return movieListTO;
     }

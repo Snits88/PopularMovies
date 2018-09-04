@@ -6,9 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -47,21 +47,20 @@ public class MainActivity extends AppCompatActivity
         mImageError = findViewById(R.id.image_error);
         mImageError.setImageResource(R.drawable.server_error);
         mProgressBar = findViewById(R.id.main_progress);
-
         mMoviesList = findViewById(R.id.main_recycler);
+
+        key = getString(R.string.api_key);
+        language = getString(R.string.language);
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         mMoviesList.setLayoutManager(layoutManager);
 
         mMoviesList.setHasFixedSize(true);
-
-        mAdapter = new MoviesAdapter(NUM_LIST_ITEMS, this);
+        mAdapter = new MoviesAdapter(NUM_LIST_ITEMS, new MovieListTO());
         mMoviesList.setAdapter(mAdapter);
-
-        key = getString(R.string.api_key);
-        language = getString(R.string.language);
         firstLoadMovies();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -110,16 +109,19 @@ public class MainActivity extends AppCompatActivity
                 JSONObject jsonResponse = NetworkUtils.getResponseFromHttpUrl(url);
                 return JsonUtils.parseJsonToMovieListTO(jsonResponse);
             } catch (IOException | JSONException | ParseException e) {
-                mImageError.setVisibility(View.VISIBLE);
+                return null;
             }
-            return null;
         }
 
         @Override
         protected void onPostExecute(MovieListTO result) {
             mProgressBar.setVisibility(View.GONE);
-            mAdapter.setMovieListTO(result);
+            if(result == null){
+                mImageError.setVisibility(View.VISIBLE);
+            }else{
+                mAdapter.setMovieListTO(result);
+                mAdapter.notifyDataSetChanged();
+            }
         }
     }
-
 }

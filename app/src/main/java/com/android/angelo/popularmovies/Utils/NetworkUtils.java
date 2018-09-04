@@ -16,6 +16,8 @@ public class NetworkUtils {
     final static String MOVIEDB_BASE_URL =
             "https://api.themoviedb.org/3/";
 
+    final static String  MOVIEDB_BASE_URL_IMAGE = "http://image.tmdb.org/t/p/w500/";
+
     final static String API_KEY = "api_key";
     final static String LANGUAGE = "language";
     final static String DEFAUlT_LANGUAGE = "en-US";
@@ -34,13 +36,20 @@ public class NetworkUtils {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-
         return url;
     }
 
     public static URL buildUrl(String restCall, String apiKey, int page_number) {
         return buildUrl(restCall,DEFAUlT_LANGUAGE,page_number);
     }
+
+    public static Uri buildImageUrl(String posterCode) {
+        Uri builtUri = Uri.parse(MOVIEDB_BASE_URL_IMAGE).buildUpon()
+                .appendEncodedPath(posterCode)
+                .build();
+        return builtUri;
+    }
+
 
     public static JSONObject getResponseFromHttpUrl(URL url) throws IOException, JSONException {
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();

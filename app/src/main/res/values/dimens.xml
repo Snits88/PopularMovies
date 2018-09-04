@@ -6,6 +6,9 @@
 
     <dimen name="paddingItemDecorationDefault">8dp</dimen>
     <dimen name="paddingItemDecorationEdge">24dp</dimen>
-    <dimen name="activity_margin_content">24dp</dimen>
+    <dimen name="activity_margin_content">4dp</dimen>
     <dimen name="activity_margin_half">8dp</dimen>
+
+    <dimen name="margin10">10dp</dimen>
+
 </resources>
