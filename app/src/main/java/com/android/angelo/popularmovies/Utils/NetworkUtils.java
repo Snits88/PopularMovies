@@ -13,9 +13,9 @@ import java.net.URL;
 import java.util.Scanner;
 
 public class NetworkUtils {
-    final static String MOVIEDB_BASE_URL =
-            "https://api.themoviedb.org/3/";
 
+    final static String MOVIEDB_POPULAR_MOVIES_URL = "https://api.themoviedb.org/3/movie/popular";
+    final static String MOVIEDB_TOP_RATED_MOVIES_URL = "https://api.themoviedb.org/3/movie/top_rated";
     final static String  MOVIEDB_BASE_URL_IMAGE = "http://image.tmdb.org/t/p/w500/";
 
     final static String API_KEY = "api_key";
@@ -23,8 +23,9 @@ public class NetworkUtils {
     final static String DEFAUlT_LANGUAGE = "en-US";
     final static String PAGE_NUMBER = "page";
 
-    public static URL buildUrl(String restCall, String apiKey, String language, int page_number) {
-        Uri builtUri = Uri.parse(MOVIEDB_BASE_URL + restCall).buildUpon()
+
+    public static URL buildPopularMoviesUrl(String apiKey, String language, int page_number){
+        Uri builtUri = Uri.parse(MOVIEDB_POPULAR_MOVIES_URL).buildUpon()
                 .appendQueryParameter(API_KEY, apiKey)
                 .appendQueryParameter(LANGUAGE, language)
                 .appendQueryParameter(PAGE_NUMBER, String.valueOf(page_number))
@@ -39,8 +40,28 @@ public class NetworkUtils {
         return url;
     }
 
-    public static URL buildUrl(String restCall, String apiKey, int page_number) {
-        return buildUrl(restCall,DEFAUlT_LANGUAGE,page_number);
+    public static URL buildPopularMoviesUrl(String apiKey, int page_number) {
+        return buildPopularMoviesUrl(DEFAUlT_LANGUAGE,page_number);
+    }
+
+    public static URL buildTopRatedUrl(String apiKey, String language, int page_number){
+        Uri builtUri = Uri.parse(MOVIEDB_TOP_RATED_MOVIES_URL).buildUpon()
+                .appendQueryParameter(API_KEY, apiKey)
+                .appendQueryParameter(LANGUAGE, language)
+                .appendQueryParameter(PAGE_NUMBER, String.valueOf(page_number))
+                .build();
+
+        URL url = null;
+        try {
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return url;
+    }
+
+    public static URL buildTopRatedUrl(String apiKey, int page_number) {
+        return buildPopularMoviesUrl(DEFAUlT_LANGUAGE,page_number);
     }
 
     public static Uri buildImageUrl(String posterCode) {
@@ -52,6 +73,7 @@ public class NetworkUtils {
 
 
     public static JSONObject getResponseFromHttpUrl(URL url) throws IOException, JSONException {
+        if(url == null) return null;
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try {
             InputStream in = urlConnection.getInputStream();

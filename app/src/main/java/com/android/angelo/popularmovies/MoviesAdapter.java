@@ -9,21 +9,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.android.angelo.popularmovies.Model.MovieListTO;
+import com.android.angelo.popularmovies.Model.MovieTO;
 import com.android.angelo.popularmovies.Utils.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder> {
 
-//    final private ListItemClickListener mOnClickListener;
+    final private ListItemClickListener mOnClickListener;
     private int nMovieItems;
     private MovieListTO movieListTO;
 
 
-    public MoviesAdapter(int numberOfItems, MovieListTO movieListTO){
+    public MoviesAdapter(int numberOfItems, MovieListTO movieListTO, ListItemClickListener clickListener){
         this.nMovieItems = numberOfItems;
-//        this.mOnClickListener = clickListener;
+        this.mOnClickListener = clickListener;
         setMovieListTO(movieListTO);
     }
 
@@ -52,7 +54,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 
     @Override
     public int getItemCount() {
-        return nMovieItems;
+        return movieListTO.getMovies() == null ? nMovieItems : movieListTO.getMovies().size();
     }
 
     public MovieListTO getMovieListTO() {
@@ -71,8 +73,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         public MovieViewHolder(View itemView) {
             super(itemView);
             mImagePosterView = itemView.findViewById(R.id.imageView);
-
-//            itemView.setOnClickListener(this);
+            itemView.setOnClickListener(this);
         }
 
         /**
@@ -82,12 +83,12 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         @Override
         public void onClick(View v) {
             int clickedPosition = getAdapterPosition();
-//            mOnClickListener.onListItemClick(clickedPosition);
+            mOnClickListener.onListItemClick(movieListTO.getMovies().get(clickedPosition));
         }
     }
 
 
     public interface ListItemClickListener {
-        void onListItemClick(int clickedItemIndex);
+        void onListItemClick(MovieTO clickedItemIndex);
     }
 }
