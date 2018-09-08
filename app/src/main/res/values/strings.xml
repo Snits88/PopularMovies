@@ -6,4 +6,11 @@
     <string name="api_key"></string>
     <string name="language">it-IT</string>
     <string name="movie_poster">Movie Poster</string>
+
+    <string name="movies_picture_description">movie picture</string>
+    <string name="movie_poster_label">movie poster</string>
+    <string name="movie_name_label">movie name</string>
+    <string name="detail_movie_overview_label">overview</string>
+    <string name="movie_rating_label">movie rating</string>
+
 </resources>
