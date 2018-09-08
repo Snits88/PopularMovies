@@ -1,9 +1,11 @@
 package com.android.angelo.popularmovies;
 
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -113,9 +115,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onListItemClick(MovieTO clickedMovie) {
-        Toast.makeText(this, clickedMovie.getTitle(), Toast.LENGTH_LONG).show();
-        //TODO: add Intent and call a new Activity with Film Info
+    public void onListItemClick(int position, MovieTO clickedMovie) {
+        launchDetailActivity(position, clickedMovie);
     }
 
 
@@ -177,4 +178,14 @@ public class MainActivity extends AppCompatActivity
             isLoading = false;
         }
     }
+
+    private void launchDetailActivity(int position, MovieTO clickedMovie) {
+        Intent intent = new Intent(this, DetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(DetailActivity.MOVIE_INFO, clickedMovie);
+        bundle.putInt(DetailActivity.EXTRA_POSITION, position);
+        intent.putExtra(DetailActivity.INFO, bundle);
+        startActivity(intent);
+    }
+
 }

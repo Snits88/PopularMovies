@@ -12,5 +12,8 @@
     <string name="movie_name_label">movie name</string>
     <string name="detail_movie_overview_label">overview</string>
     <string name="movie_rating_label">movie rating</string>
+    <string name="movie_release_date_label">release date</string>
 
+    <!-- Error messages-->
+    <string name="detail_error_message">Movie data not available</string>
 </resources>

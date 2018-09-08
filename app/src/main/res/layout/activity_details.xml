@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.android.angelo.popularmovies.DetailActivity">
+    tools:context="com.android.angelo.popularmovies.DetailActivity"
+    android:background="@color/cardview_light_background">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -27,12 +28,13 @@
                 android:id="@+id/movie_poster_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="8dp">
+                android:padding="8dp"
+                android:background="@color/cardview_light_background">
 
                 <ImageView
                     android:id="@+id/poster"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="100dp"
+                    android:layout_height="120dp"
                     android:contentDescription="@string/movie_poster_label" />
 
                 <TextView
@@ -44,19 +46,32 @@
                     android:layout_marginTop="8dp"
                     android:layout_toEndOf="@+id/poster"
                     android:contentDescription="@string/movie_name_label"
-                    android:maxLines="1"
-                    android:textSize="20sp" />
+                    android:maxLines="2"
+                    android:textSize="22sp" />
 
                 <TextView
-                    android:id="@+id/movie_rating"
-                    android:layout_width="match_parent"
+                    android:id="@+id/movie_release_date"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_alignStart="@+id/movie_name"
                     android:layout_below="@+id/movie_name"
                     android:layout_marginTop="4dp"
                     android:contentDescription="@string/movie_rating_label"
-                    android:maxLines="1"
-                    android:textSize="14sp" />
+                    android:maxLines="3"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/movie_rating"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/movie_release_date"
+                    android:layout_marginStart="5dp"
+                    android:layout_below="@+id/movie_name"
+                    android:layout_marginTop="4dp"
+                    android:contentDescription="@string/movie_release_date_label"
+                    android:maxLines="2"
+                    android:textSize="17sp" />
+
 
                 <TextView
                     android:id="@+id/movie_overview_title"
@@ -64,23 +79,23 @@
                     android:layout_height="25dp"
                     android:layout_below="@id/poster"
                     android:layout_marginTop="12dp"
-                    android:fontFamily="casual"
+                    android:fontFamily="serif-monospace"
                     android:text="@string/detail_movie_overview_label"
                     android:textAllCaps="true"
                     android:textColor="@android:color/darker_gray"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
 
                 <TextView
+                    android:background="@color/cardview_dark_background"
                     android:id="@+id/movie_overview"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:layout_below="@+id/movie_overview_title"
                     android:layout_marginTop="10dp"
                     android:contentDescription="@string/movie_rating_label"
-                    android:maxLines="1"
                     android:textSize="16sp" />
 
             </RelativeLayout>

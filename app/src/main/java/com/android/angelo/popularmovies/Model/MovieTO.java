@@ -1,9 +1,12 @@
 package com.android.angelo.popularmovies.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 import java.util.List;
 
-public class MovieTO {
+public class MovieTO implements Parcelable{
     private int vote_count;
     private int id;
     private boolean video;
@@ -18,6 +21,60 @@ public class MovieTO {
     private boolean adult;
     private String overview;
     private Date release_date;
+
+    public MovieTO(){ }
+
+    public MovieTO(Parcel parcel){
+        this.vote_count  = parcel.readInt();
+        this.id = parcel.readInt();
+        this.video = parcel.readByte() != 0;
+        this.vote_avarage = parcel.readDouble();
+        this.title = parcel.readString();
+        this.popularity = parcel.readDouble();
+        this.poster_path = parcel.readString();
+        this.original_language = parcel.readString();
+        this.original_title = parcel.readString();
+        this.genre_ids = parcel.readArrayList(List.class.getClassLoader());
+        this.backdrop_path = parcel.readString();
+        this.adult = parcel.readByte() != 0;
+        this.overview = parcel.readString();
+        this.release_date = (java.util.Date) parcel.readSerializable();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(vote_count);
+        dest.writeInt(id);
+        dest.writeByte((byte) (video ? 1 : 0));
+        dest.writeDouble(vote_avarage);
+        dest.writeString(title);
+        dest.writeDouble(popularity);
+        dest.writeString(poster_path);
+        dest.writeString(original_language);
+        dest.writeString(original_title);
+        dest.writeList(genre_ids);
+        dest.writeString(backdrop_path);
+        dest.writeByte((byte) (adult ? 1 : 0));
+        dest.writeString(overview);
+        dest.writeSerializable(release_date);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Parcelable.Creator<MovieTO> CREATOR
+            = new Parcelable.Creator<MovieTO>() {
+        public MovieTO createFromParcel(Parcel in) {
+            return new MovieTO(in);
+        }
+
+        public MovieTO[] newArray(int size) {
+            return new MovieTO[size];
+        }
+    };
+
 
     /** Getters And Setters Method**/
 
@@ -45,7 +102,7 @@ public class MovieTO {
         this.video = video;
     }
 
-    public double getVote_avarage() {
+    public Double getVote_avarage() {
         return vote_avarage;
     }
 
@@ -132,4 +189,5 @@ public class MovieTO {
     public void setRelease_date(Date release_date) {
         this.release_date = release_date;
     }
+
 }

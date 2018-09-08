@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.android.angelo.popularmovies.MainActivity">
+    tools:context="com.android.angelo.popularmovies.MainActivity"
+    android:background="@color/cardview_light_background">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/main_recycler"
