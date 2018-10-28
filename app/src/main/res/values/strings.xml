@@ -4,7 +4,6 @@
     <string name="action_top_rated">Top Rated Movies</string>
     <string name="error_description">Problem with connection</string>
     <string name="base_url_movie">https://api.themoviedb.org/3/movie</string>
-    <string name="api_key"></string>
     <string name="language">it-IT</string>
     <string name="movie_poster">Movie Poster</string>
     <string name="movie_review">Movie Review</string>

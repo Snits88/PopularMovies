@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity
         mProgressBar = findViewById(R.id.main_progress);
         mMoviesList = findViewById(R.id.main_recycler);
 
-        key = getString(R.string.api_key);
+        key = BuildConfig.API_KEY;
         language = getString(R.string.language);
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
