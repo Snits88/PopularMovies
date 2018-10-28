@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Popular Movies</string>
+    <string name="action_most_popular">Most Popular Movies</string>
+    <string name="action_top_rated">Top Rated Movies</string>
+    <string name="error_description">Problem with connection</string>
+    <string name="base_url_movie">https://api.themoviedb.org/3/movie</string>
+    <string name="api_key"></string>
+    <string name="language">it-IT</string>
+    <string name="movie_poster">Movie Poster</string>
+    <string name="movie_review">Movie Review</string>
+    <string name="movie_trailer">Movie Trailer</string>
+
+    <string name="overview">Overview</string>
+    <string name="review">Review</string>
+    <string name="trailer">Trailer</string>
+
+    <string name="movies_picture_description">movie picture</string>
+    <string name="movie_poster_label">movie poster</string>
+    <string name="movie_name_label">movie name</string>
+    <string name="detail_movie_overview_label">overview</string>
+    <string name="movie_rating_label">movie rating</string>
+    <string name="movie_release_date_label">release date</string>
+
+    <!-- Error messages-->
+    <string name="detail_error_message">Movie data not available</string>
+</resources>
