@@ -1,15 +1,14 @@
-package com.android.angelo.popularmovies.DetailFragment;
+package com.android.angelo.popularmovies.detailFragment;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.android.angelo.popularmovies.Adapter.MyFragmentAdapter;
-import com.android.angelo.popularmovies.Model.MovieTO;
+import com.android.angelo.popularmovies.adapter.MyFragmentAdapter;
+import com.android.angelo.popularmovies.model.MovieTO;
 import com.android.angelo.popularmovies.R;
 
 import org.apache.commons.lang3.StringUtils;

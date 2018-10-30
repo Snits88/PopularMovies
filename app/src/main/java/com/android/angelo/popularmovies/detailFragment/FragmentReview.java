@@ -1,32 +1,26 @@
-package com.android.angelo.popularmovies.DetailFragment;
+package com.android.angelo.popularmovies.detailFragment;
 
-import android.arch.core.BuildConfig;
-import android.content.Context;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.android.angelo.popularmovies.Adapter.MoviesReviewAdapter;
-import com.android.angelo.popularmovies.MainActivity;
-import com.android.angelo.popularmovies.Model.MovieReviewListTO;
-import com.android.angelo.popularmovies.Model.MovieTO;
+import com.android.angelo.popularmovies.adapter.MoviesReviewAdapter;
+import com.android.angelo.popularmovies.model.MovieReviewListTO;
+import com.android.angelo.popularmovies.model.MovieTO;
 import com.android.angelo.popularmovies.R;
-import com.android.angelo.popularmovies.Utils.RetrofitClientInstance;
-import com.android.angelo.popularmovies.Utils.movieDBInterface;
+import com.android.angelo.popularmovies.utils.RetrofitClientInstance;
+import com.android.angelo.popularmovies.utils.movieDBInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-import static com.android.angelo.popularmovies.Adapter.MyFragmentAdapter.MOVIE_KEY;
+import static com.android.angelo.popularmovies.adapter.MyFragmentAdapter.MOVIE_KEY;
 
 public class FragmentReview extends Fragment {
 

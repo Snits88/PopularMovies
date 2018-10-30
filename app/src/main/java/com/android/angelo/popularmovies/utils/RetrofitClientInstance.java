@@ -1,8 +1,4 @@
-package com.android.angelo.popularmovies.Utils;
-
-import android.content.res.Resources;
-
-import com.android.angelo.popularmovies.R;
+package com.android.angelo.popularmovies.utils;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

@@ -1,5 +1,6 @@
-package com.android.angelo.popularmovies.DetailFragment;
+package com.android.angelo.popularmovies.detailFragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,19 +10,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.android.angelo.popularmovies.Adapter.MoviesTrailerAdapter;
-import com.android.angelo.popularmovies.Model.MovieTO;
-import com.android.angelo.popularmovies.Model.MovieTrailerListTO;
+import com.android.angelo.popularmovies.adapter.MoviesTrailerAdapter;
+import com.android.angelo.popularmovies.model.MovieTO;
+import com.android.angelo.popularmovies.model.MovieTrailerListTO;
 import com.android.angelo.popularmovies.R;
-import com.android.angelo.popularmovies.Utils.RetrofitClientInstance;
-import com.android.angelo.popularmovies.Utils.movieDBInterface;
+import com.android.angelo.popularmovies.utils.RetrofitClientInstance;
+import com.android.angelo.popularmovies.utils.movieDBInterface;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-import static com.android.angelo.popularmovies.Adapter.MyFragmentAdapter.MOVIE_KEY;
+import static com.android.angelo.popularmovies.adapter.MyFragmentAdapter.MOVIE_KEY;
 
 public class FragmentTrailer extends Fragment {
 
@@ -31,6 +32,14 @@ public class FragmentTrailer extends Fragment {
     private MovieTrailerListTO mTrailerListTO;
     private RecyclerView recyclerView;
     private MoviesTrailerAdapter mTrailerAdapter;
+    private MoviesTrailerAdapter.ClickListener cl;
+
+    public FragmentTrailer(){}
+
+    @SuppressLint("ValidFragment")
+    public FragmentTrailer(MoviesTrailerAdapter.ClickListener clickListener){
+        this.cl = clickListener;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -77,7 +86,7 @@ public class FragmentTrailer extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
         // Create and menage Adapter for the Recycler view
-        mTrailerAdapter = new MoviesTrailerAdapter();
+        mTrailerAdapter = new MoviesTrailerAdapter(cl);
         recyclerView.setAdapter(mTrailerAdapter);
     }
 

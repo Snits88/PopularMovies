@@ -19,14 +19,6 @@
             android:layout_margin="10dp"
             android:contentDescription="@string/movie_trailer" />
 
-        <WebView
-            android:id="@+id/webViewTrailer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_margin="10dp"
-            android:contentDescription="@string/movie_trailer" />
-
     </RelativeLayout>
 
 </LinearLayout>

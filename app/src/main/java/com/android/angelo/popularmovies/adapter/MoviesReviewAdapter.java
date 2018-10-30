@@ -1,4 +1,4 @@
-package com.android.angelo.popularmovies.Adapter;
+package com.android.angelo.popularmovies.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.android.angelo.popularmovies.Model.MovieReviewTO;
+import com.android.angelo.popularmovies.model.MovieReviewTO;
 import com.android.angelo.popularmovies.R;
 
 import java.util.ArrayList;

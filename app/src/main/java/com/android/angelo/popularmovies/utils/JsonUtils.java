@@ -1,8 +1,7 @@
-package com.android.angelo.popularmovies.Utils;
+package com.android.angelo.popularmovies.utils;
 
-import com.android.angelo.popularmovies.Model.MovieListTO;
-import com.android.angelo.popularmovies.Model.MovieReviewTO;
-import com.android.angelo.popularmovies.Model.MovieTO;
+import com.android.angelo.popularmovies.model.MovieListTO;
+import com.android.angelo.popularmovies.model.MovieTO;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -1,11 +1,10 @@
 package com.android.angelo.popularmovies;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.TestLooperManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -13,18 +12,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.angelo.popularmovies.Adapter.MyFragmentAdapter;
-import com.android.angelo.popularmovies.Model.MovieTO;
-import com.android.angelo.popularmovies.Utils.NetworkUtils;
+import com.android.angelo.popularmovies.adapter.MoviesTrailerAdapter;
+import com.android.angelo.popularmovies.adapter.MyFragmentAdapter;
+import com.android.angelo.popularmovies.model.MovieTO;
+import com.android.angelo.popularmovies.utils.NetworkUtils;
 import com.squareup.picasso.Picasso;
-
-import org.apache.commons.lang3.StringUtils;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity
+        implements MoviesTrailerAdapter.ClickListener{
 
     public static final String EXTRA_POSITION = "extra_position";
     public static final String MOVIE_INFO = "movie_info";
@@ -62,7 +61,7 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         // Fragment Management
-        mFragmentAdapter = new MyFragmentAdapter(getSupportFragmentManager(),movie);
+        mFragmentAdapter = new MyFragmentAdapter(getSupportFragmentManager(),movie,this);
         mViewPager =  (ViewPager) findViewById(R.id.view_pager);
         mViewPager.setAdapter(mFragmentAdapter);
         mViewPager.setVisibility(View.VISIBLE);
@@ -100,5 +99,15 @@ public class DetailActivity extends AppCompatActivity {
         Format formatter = new SimpleDateFormat("dd-MM-yyyy");
         String d = formatter.format(movie.getRelease_date());
         date.setText(d);
+    }
+
+    @Override
+    public void onListItemClick(String urlTrailer){
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlTrailer));
+        // Verify it resolves
+        PackageManager packageManager = getPackageManager();
+        List<ResolveInfo> activities = packageManager.queryIntentActivities(intent, 0);
+        boolean isIntentSafe = activities.size() > 0;
+        if(isIntentSafe) {startActivity(intent);}
     }
 }

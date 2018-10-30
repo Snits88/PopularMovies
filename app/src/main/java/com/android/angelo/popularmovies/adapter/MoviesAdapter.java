@@ -1,4 +1,4 @@
-package com.android.angelo.popularmovies.Adapter;
+package com.android.angelo.popularmovies.adapter;
 
 
 import android.content.Context;
@@ -10,10 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.android.angelo.popularmovies.Model.MovieListTO;
-import com.android.angelo.popularmovies.Model.MovieTO;
+import com.android.angelo.popularmovies.model.MovieListTO;
+import com.android.angelo.popularmovies.model.MovieTO;
 import com.android.angelo.popularmovies.R;
-import com.android.angelo.popularmovies.Utils.NetworkUtils;
+import com.android.angelo.popularmovies.utils.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder> {

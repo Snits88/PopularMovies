@@ -1,4 +1,4 @@
-package com.android.angelo.popularmovies.Utils;
+package com.android.angelo.popularmovies.utils;
 
 import android.net.Uri;
 

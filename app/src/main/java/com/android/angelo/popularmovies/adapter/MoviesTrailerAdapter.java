@@ -1,9 +1,6 @@
-package com.android.angelo.popularmovies.Adapter;
+package com.android.angelo.popularmovies.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -12,26 +9,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.android.angelo.popularmovies.Model.MovieTrailerTO;
+import com.android.angelo.popularmovies.model.MovieTrailerTO;
 import com.android.angelo.popularmovies.R;
 import com.squareup.picasso.Picasso;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MoviesTrailerAdapter  extends RecyclerView.Adapter<MoviesTrailerAdapter.MovieTrailerViewHolder>{
 
+    final private ClickListener mOnClickListener;
     private List<MovieTrailerTO> movieTrailerList;
     private final static String SITE = "YouTube";
     private final static String BASE_URL_TRAILER_IMAGE = "https://img.youtube.com/vi/";
     private final static String BASE_URL_TRAILER = "https://www.youtube.com/watch";
     private final static String QUERY_PARAM = "v=";
 
-    public MoviesTrailerAdapter(){
+    public MoviesTrailerAdapter(ClickListener clickListener){
         setMovieTrailerList(new ArrayList<MovieTrailerTO>());
+        mOnClickListener = clickListener;
     }
 
     @NonNull
@@ -79,10 +76,12 @@ public class MoviesTrailerAdapter  extends RecyclerView.Adapter<MoviesTrailerAda
                 public void onClick(View v) {
                     //Uri For view Trailer
                     String urlTrailer = BASE_URL_TRAILER + "?" + QUERY_PARAM + movieTrailerList.get(getAdapterPosition()).getKey();
-                    trailerWebView.loadUrl(urlTrailer);
+                    mOnClickListener.onListItemClick(urlTrailer);
                 }
             });
-            trailerWebView = itemView.findViewById(R.id.webViewTrailer);
+
+
+
         }
     }
 
@@ -92,6 +91,10 @@ public class MoviesTrailerAdapter  extends RecyclerView.Adapter<MoviesTrailerAda
 
     public void setMovieTrailerList(List<MovieTrailerTO> movieTrailerList) {
         this.movieTrailerList = movieTrailerList;
+    }
+
+    public interface ClickListener {
+        void onListItemClick(String urlTrailer);
     }
 
 }

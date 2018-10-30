@@ -14,11 +14,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.android.angelo.popularmovies.Adapter.MoviesAdapter;
-import com.android.angelo.popularmovies.Model.MovieListTO;
-import com.android.angelo.popularmovies.Model.MovieTO;
-import com.android.angelo.popularmovies.Utils.JsonUtils;
-import com.android.angelo.popularmovies.Utils.NetworkUtils;
+import com.android.angelo.popularmovies.adapter.MoviesAdapter;
+import com.android.angelo.popularmovies.model.MovieListTO;
+import com.android.angelo.popularmovies.model.MovieTO;
+import com.android.angelo.popularmovies.utils.JsonUtils;
+import com.android.angelo.popularmovies.utils.NetworkUtils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity
     private static final int NUM_LIST_ITEMS = 20;
     private static final String TOP_RATED = "top_rated";
     private static final String MOST_POPULAR = "most_popular";
+    private static final String FAVOURITES = "favourites";
 
     private MoviesAdapter mAdapter;
     private RecyclerView mMoviesList;
@@ -69,24 +70,26 @@ public class MainActivity extends AppCompatActivity
         mAdapter = new MoviesAdapter(NUM_LIST_ITEMS, new MovieListTO(), this);
         mMoviesList.setAdapter(mAdapter);
         firstLoadMovies();
-        mMoviesList.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                GridLayoutManager lm = (GridLayoutManager)recyclerView.getLayoutManager();
+        if(!StringUtils.equalsIgnoreCase(typology_call, FAVOURITES)){
+            mMoviesList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+                    GridLayoutManager lm = (GridLayoutManager)recyclerView.getLayoutManager();
 
-                int visibleItemCount = lm.getChildCount();
-                int totalItemCount = lm.getItemCount();
-                int firstVisibleItemPosition = lm.findFirstVisibleItemPosition();
+                    int visibleItemCount = lm.getChildCount();
+                    int totalItemCount = lm.getItemCount();
+                    int firstVisibleItemPosition = lm.findFirstVisibleItemPosition();
 
-                if (isLoading == false && page_number < total_page) {
-                    if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
-                            && firstVisibleItemPosition >= 0) {
-                        new DownloadAsyncTask().execute(key,language);
+                    if (isLoading == false && page_number < total_page) {
+                        if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                                && firstVisibleItemPosition >= 0) {
+                            new DownloadAsyncTask().execute(key,language);
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
     }
 
 

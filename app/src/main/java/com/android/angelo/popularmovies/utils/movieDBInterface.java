@@ -1,7 +1,7 @@
-package com.android.angelo.popularmovies.Utils;
+package com.android.angelo.popularmovies.utils;
 
-import com.android.angelo.popularmovies.Model.MovieReviewListTO;
-import com.android.angelo.popularmovies.Model.MovieTrailerListTO;
+import com.android.angelo.popularmovies.model.MovieReviewListTO;
+import com.android.angelo.popularmovies.model.MovieTrailerListTO;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

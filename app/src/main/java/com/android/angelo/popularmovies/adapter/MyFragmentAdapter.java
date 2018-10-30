@@ -1,26 +1,26 @@
-package com.android.angelo.popularmovies.Adapter;
+package com.android.angelo.popularmovies.adapter;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.android.angelo.popularmovies.DetailFragment.FragmentOverview;
-import com.android.angelo.popularmovies.DetailFragment.FragmentReview;
-import com.android.angelo.popularmovies.DetailFragment.FragmentTrailer;
-import com.android.angelo.popularmovies.Model.MovieTO;
+import com.android.angelo.popularmovies.detailFragment.FragmentOverview;
+import com.android.angelo.popularmovies.detailFragment.FragmentReview;
+import com.android.angelo.popularmovies.detailFragment.FragmentTrailer;
+import com.android.angelo.popularmovies.model.MovieTO;
 
 
 public class MyFragmentAdapter extends FragmentStatePagerAdapter {
 
     private MovieTO movieTO;
-    private Context context;
+    private MoviesTrailerAdapter.ClickListener cl;
     public static final String MOVIE_KEY = "MOVIE_KEY";
 
-    public MyFragmentAdapter(FragmentManager fm, MovieTO movieTO){
+    public MyFragmentAdapter(FragmentManager fm, MovieTO movieTO, MoviesTrailerAdapter.ClickListener clickListener){
         super(fm);
         this.movieTO = movieTO;
+        this.cl = clickListener;
     }
 
     @Override
@@ -36,7 +36,7 @@ public class MyFragmentAdapter extends FragmentStatePagerAdapter {
                 fragment = new FragmentReview();
                 break;
             case 2:
-                fragment = new FragmentTrailer();
+                fragment = new FragmentTrailer(cl);
                 break;
         }
         if(fragment != null) fragment.setArguments(args);
