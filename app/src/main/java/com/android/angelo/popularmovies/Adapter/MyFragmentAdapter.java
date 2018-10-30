@@ -1,5 +1,6 @@
 package com.android.angelo.popularmovies.Adapter;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,6 +15,7 @@ import com.android.angelo.popularmovies.Model.MovieTO;
 public class MyFragmentAdapter extends FragmentStatePagerAdapter {
 
     private MovieTO movieTO;
+    private Context context;
     public static final String MOVIE_KEY = "MOVIE_KEY";
 
     public MyFragmentAdapter(FragmentManager fm, MovieTO movieTO){

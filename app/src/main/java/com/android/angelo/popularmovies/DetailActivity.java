@@ -1,6 +1,7 @@
 package com.android.angelo.popularmovies;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -37,10 +38,14 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+        //Check Screen Rotation
+        int orientation = this.getResources().getConfiguration().orientation;
 
         ImageView ingredientsIv = findViewById(R.id.image_iv);
         ImageView poster = findViewById(R.id.poster);
-
+        if (orientation == this.getResources().getConfiguration().ORIENTATION_LANDSCAPE) {
+            ingredientsIv.setVisibility(View.GONE);
+        }
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra(INFO);
         MovieTO movie = bundle.getParcelable(MOVIE_INFO);

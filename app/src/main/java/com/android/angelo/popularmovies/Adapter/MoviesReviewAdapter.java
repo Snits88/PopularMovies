@@ -1,38 +1,65 @@
 package com.android.angelo.popularmovies.Adapter;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import com.android.angelo.popularmovies.Model.MovieReviewListTO;
+import com.android.angelo.popularmovies.Model.MovieReviewTO;
+import com.android.angelo.popularmovies.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MoviesReviewAdapter extends RecyclerView.Adapter<MoviesReviewAdapter.MovieReviewViewHolder>{
 
-    private int nMovieReviewItems;
-    private MovieReviewListTO movieReviewListTO;
+    private List<MovieReviewTO> movieReviewList;
+
+    public MoviesReviewAdapter(){
+        setMovieReviewList(new ArrayList<MovieReviewTO>());
+    }
 
     @NonNull
     @Override
-    public MovieReviewViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+    public MovieReviewViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+        Context context = viewGroup.getContext();
+        int layoutIdForListItem = R.layout.fragment_review_item;
+        LayoutInflater inflater = LayoutInflater.from(context);
+        boolean shouldAttachToParentImmediately = false;
+        View view = inflater.inflate(layoutIdForListItem, viewGroup, shouldAttachToParentImmediately);
+        MoviesReviewAdapter.MovieReviewViewHolder mrvh = new MoviesReviewAdapter.MovieReviewViewHolder(view);
+        return mrvh;
     }
 
     @Override
     public void onBindViewHolder(@NonNull MovieReviewViewHolder holder, int position) {
+        if(movieReviewList.size() > 0){
+            holder.reviewTextView.setText(movieReviewList.get(position).getAuthor() + " says: \n\n" + movieReviewList.get(position).getContent());
+        }
+    }
 
+    public class MovieReviewViewHolder extends RecyclerView.ViewHolder {
+        TextView reviewTextView;
+        public MovieReviewViewHolder(View itemView) {
+            super(itemView);
+            reviewTextView = itemView.findViewById(R.id.reviewTextView);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return movieReviewListTO.getResults() == null ? nMovieReviewItems : movieReviewListTO.getResults().size();
+        return getMovieReviewList().size();
     }
 
-    public class MovieReviewViewHolder extends RecyclerView.ViewHolder {
+    public List<MovieReviewTO> getMovieReviewList() {
+        return movieReviewList;
+    }
 
-        public MovieReviewViewHolder(View itemView) {
-            super(itemView);
-        }
+    public void setMovieReviewList(List<MovieReviewTO> movieReviewList) {
+        this.movieReviewList = movieReviewList;
     }
 
 }
