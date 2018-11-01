@@ -8,7 +8,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface movieDBInterface {
+public interface MovieDBInterface {
 
     @GET("movie/{id}/reviews")
     Call<MovieReviewListTO> getAllMovieReviews(@Path("id") int id, @Query("api_key") String api_key, @Query("page_number") int page_number);

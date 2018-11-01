@@ -14,7 +14,7 @@ import com.android.angelo.popularmovies.model.MovieReviewListTO;
 import com.android.angelo.popularmovies.model.MovieTO;
 import com.android.angelo.popularmovies.R;
 import com.android.angelo.popularmovies.utils.RetrofitClientInstance;
-import com.android.angelo.popularmovies.utils.movieDBInterface;
+import com.android.angelo.popularmovies.utils.MovieDBInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -28,7 +28,7 @@ public class FragmentReview extends Fragment {
     private MovieTO movie;
     private int page_number = 1;
     private int total_page = 1;
-    private movieDBInterface mDBInterface;
+    private MovieDBInterface mDBInterface;
     private MovieReviewListTO mReviewListTO;
     private boolean isLoading = true;
     private RecyclerView recyclerView;
@@ -42,10 +42,10 @@ public class FragmentReview extends Fragment {
         api_key = com.android.angelo.popularmovies.BuildConfig.API_KEY;
         /*Create handle for the RetrofitInstance interface*/
         Retrofit retrofitInstance = RetrofitClientInstance.getRetrofitInstance();
-        mDBInterface = retrofitInstance.create(movieDBInterface.class);
+        mDBInterface = retrofitInstance.create(MovieDBInterface.class);
     }
 
-    private void callAPIMovieReviews(movieDBInterface mDBInterface) {
+    private void callAPIMovieReviews(MovieDBInterface mDBInterface) {
         isLoading = true;
         Call<MovieReviewListTO> allMovieReviews = mDBInterface.getAllMovieReviews(movie.getId(), api_key, page_number);
         allMovieReviews.enqueue(new Callback<MovieReviewListTO>() {

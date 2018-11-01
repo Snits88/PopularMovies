@@ -20,6 +20,6 @@ public interface TaskDao {
     @Delete
     void deleteTask(MovieEntry movieEntry);
 
-    @Query("SELECT * FROM movie WHERE id = :id")
-    LiveData<MovieEntry> loadMovieEntryById(int id);
+    @Query("SELECT * FROM movie WHERE code = :code")
+    LiveData<MovieEntry> loadMovieEntryById(int code);
 }

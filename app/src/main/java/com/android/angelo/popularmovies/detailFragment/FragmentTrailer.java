@@ -15,7 +15,7 @@ import com.android.angelo.popularmovies.model.MovieTO;
 import com.android.angelo.popularmovies.model.MovieTrailerListTO;
 import com.android.angelo.popularmovies.R;
 import com.android.angelo.popularmovies.utils.RetrofitClientInstance;
-import com.android.angelo.popularmovies.utils.movieDBInterface;
+import com.android.angelo.popularmovies.utils.MovieDBInterface;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,7 +28,7 @@ public class FragmentTrailer extends Fragment {
 
     private String api_key;
     private MovieTO movie;
-    private movieDBInterface mDBInterface;
+    private MovieDBInterface mDBInterface;
     private MovieTrailerListTO mTrailerListTO;
     private RecyclerView recyclerView;
     private MoviesTrailerAdapter mTrailerAdapter;
@@ -49,10 +49,10 @@ public class FragmentTrailer extends Fragment {
         api_key = com.android.angelo.popularmovies.BuildConfig.API_KEY;
         /*Create handle for the RetrofitInstance interface*/
         Retrofit retrofitInstance = RetrofitClientInstance.getRetrofitInstance();
-        mDBInterface = retrofitInstance.create(movieDBInterface.class);
+        mDBInterface = retrofitInstance.create(MovieDBInterface.class);
     }
 
-    private void callAPIMovieTrailers(movieDBInterface mDBInterface) {
+    private void callAPIMovieTrailers(MovieDBInterface mDBInterface) {
         Call<MovieTrailerListTO> allMovieTrailers = mDBInterface.getAllMovieTrailers(movie.getId(), api_key);
         allMovieTrailers.enqueue(new Callback<MovieTrailerListTO>() {
             @Override

@@ -1,20 +1,30 @@
 package com.android.angelo.popularmovies;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.angelo.popularmovies.adapter.MoviesTrailerAdapter;
 import com.android.angelo.popularmovies.adapter.MyFragmentAdapter;
+import com.android.angelo.popularmovies.converter.MovieEntityToMovieTOConverter;
+import com.android.angelo.popularmovies.converter.MovieTOToMovieEntityConverter;
+import com.android.angelo.popularmovies.database.AppDatabase;
+import com.android.angelo.popularmovies.database.MovieEntry;
 import com.android.angelo.popularmovies.model.MovieTO;
+import com.android.angelo.popularmovies.utils.AppExecutors;
 import com.android.angelo.popularmovies.utils.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
@@ -33,6 +43,11 @@ public class DetailActivity extends AppCompatActivity
     private ViewPager mViewPager;
     private MyFragmentAdapter mFragmentAdapter;
 
+    private AppDatabase mDatabase;
+    private Button mFavourite;
+    private static final String SAVE = "Save as Favourite";
+    private static final String REMOVE = "Remove from Favourite";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +62,13 @@ public class DetailActivity extends AppCompatActivity
         }
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra(INFO);
-        MovieTO movie = bundle.getParcelable(MOVIE_INFO);
+        final MovieTO movie = bundle.getParcelable(MOVIE_INFO);
+
+        //Menage movie for favourites
+        mFavourite = findViewById(R.id.save_as_favourites);
+        mDatabase = AppDatabase.getInstance(getApplicationContext());
+        menageInsertDeleteFavourite(movie);
+
         if (movie == null) {
             // Sandwich data unavailable
             closeOnError();
@@ -82,6 +103,45 @@ public class DetailActivity extends AppCompatActivity
         }
 
         setTitle(movie.getTitle());
+    }
+
+    private void menageInsertDeleteFavourite(final MovieTO movie) {
+        AddMovieViewModelFactory factory = new AddMovieViewModelFactory(mDatabase, movie.getId());
+        final AddMovieViewModel viewModel = ViewModelProviders.of(this, factory).get(AddMovieViewModel.class);
+        viewModel.getMovie().observe(this, new Observer<MovieEntry>() {
+            @Override
+            public void onChanged(@Nullable final MovieEntry mEntry) {
+                mFavourite.setClickable(false);
+                mFavourite.setVisibility(View.INVISIBLE);
+                if (mEntry != null) {
+                    mFavourite.setText(REMOVE);
+                } else {
+                    mFavourite.setText(SAVE);
+                }
+                mFavourite.setClickable(true);
+                mFavourite.setVisibility(View.VISIBLE);
+                addListenerFavourite(mEntry, movie);
+            }
+        });
+    }
+
+    private void addListenerFavourite(@Nullable final MovieEntry mEntry, final MovieTO movie) {
+        mFavourite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (SAVE.equals(mFavourite.getText())) {
+                            MovieEntry entryInDB = MovieTOToMovieEntityConverter.convert(movie);
+                            mDatabase.taskDao().insertTask(entryInDB);
+                        } else if (REMOVE.equals(mFavourite.getText())) {
+                            mDatabase.taskDao().deleteTask(mEntry);
+                        }
+                    }
+                });
+            }
+        });
     }
 
     private void closeOnError() {

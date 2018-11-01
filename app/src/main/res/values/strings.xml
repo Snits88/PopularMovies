@@ -2,6 +2,7 @@
     <string name="app_name">Popular Movies</string>
     <string name="action_most_popular">Most Popular Movies</string>
     <string name="action_top_rated">Top Rated Movies</string>
+    <string name="action_favourites">Favourites</string>
     <string name="error_description">Problem with connection</string>
     <string name="base_url_movie">https://api.themoviedb.org/3/movie</string>
     <string name="language">it-IT</string>
