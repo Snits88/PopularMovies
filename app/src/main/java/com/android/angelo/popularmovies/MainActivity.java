@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity
     private static final String TOP_RATED = "top_rated";
     private static final String MOST_POPULAR = "most_popular";
     private static final String FAVOURITES = "favourites";
+    private static final String SEARCH_TYPOLOGY = "search";
 
     private MoviesAdapter mAdapter;
     private RecyclerView mMoviesList;
@@ -60,40 +61,54 @@ public class MainActivity extends AppCompatActivity
     private String typology_call = MOST_POPULAR;
 
     private AppDatabase mDatabase;
+    private MainViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mImageError = findViewById(R.id.image_error);
-        mImageError.setImageResource(R.drawable.server_error);
-        mProgressBar = findViewById(R.id.main_progress);
-        mMoviesList = findViewById(R.id.main_recycler);
+        setUIElement();
 
         key = BuildConfig.API_KEY;
         language = getString(R.string.language);
         
         //Menage DB Configuration
         mDatabase = AppDatabase.getInstance(getApplicationContext());
-        
+
         //Manage Recycler View Adapter
+        menageRecyclerView();
+
+        //Restore typlogy serach after screen rotation
+        if (savedInstanceState != null){
+            typology_call = savedInstanceState.getString(SEARCH_TYPOLOGY);
+        }
+        if(StringUtils.equalsIgnoreCase(typology_call, FAVOURITES)){
+            setupViewModel();
+        }else{
+            firstLoadMovies();
+        }
+    }
+
+    private void menageRecyclerView() {
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         mMoviesList.setLayoutManager(layoutManager);
         mMoviesList.setHasFixedSize(true);
         mAdapter = new MoviesAdapter(NUM_LIST_ITEMS, new MovieListTO(), this);
         mMoviesList.setAdapter(mAdapter);
+        menageRecyclerViewListener();
+    }
+
+    private void menageRecyclerViewListener() {
         if(!StringUtils.equalsIgnoreCase(typology_call, FAVOURITES)){
             mMoviesList.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                     super.onScrolled(recyclerView, dx, dy);
                     GridLayoutManager lm = (GridLayoutManager)recyclerView.getLayoutManager();
-
                     int visibleItemCount = lm.getChildCount();
                     int totalItemCount = lm.getItemCount();
                     int firstVisibleItemPosition = lm.findFirstVisibleItemPosition();
-
                     if (isLoading == false && page_number < total_page) {
                         if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
                                 && firstVisibleItemPosition >= 0) {
@@ -103,6 +118,15 @@ public class MainActivity extends AppCompatActivity
                 }
             });
         }
+    }
+
+    private void setUIElement() {
+        mImageError = findViewById(R.id.image_error);
+        mImageError.setImageResource(R.drawable.server_error);
+        mProgressBar = findViewById(R.id.main_progress);
+        mMoviesList = findViewById(R.id.main_recycler);
+        mProgressBar.setVisibility(View.GONE);
+        mImageError.setVisibility(View.GONE);
     }
 
 
@@ -126,7 +150,6 @@ public class MainActivity extends AppCompatActivity
         if(id == R.id.action_favourites){
             Toast.makeText(this, "Favourites Movies!", Toast.LENGTH_LONG).show();
             typology_call = FAVOURITES;
-            resetItemMovieAdapter();
             setupViewModel();
             return super.onOptionsItemSelected(item);
         }
@@ -217,11 +240,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setupViewModel() {
-        MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         viewModel.getEntries().observe(this, new Observer<List<MovieEntry>>() {
             @Override
             public void onChanged(@Nullable List<MovieEntry> mEntries) {
                 Log.d(TAG, "Updating list of tasks from LiveData in ViewModel");
+                resetItemMovieAdapter();
                 //Convert Entity Object to Business Object
                 MovieListTO mListTO = getMovieListTOFromEntryOnDB(mEntries);
                 mAdapter.setMovieListTO(mListTO);
@@ -242,14 +266,16 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onStop(){
-        super.onStop();
-        reset_call = true;
+    public void onDestroy(){
+        super.onDestroy();
+        if(viewModel != null){
+            viewModel.getEntries().removeObservers(this);
+        }
     }
 
     @Override
-    public void onResume(){
-        super.onResume();
-        firstLoadMovies();
+    public void onSaveInstanceState(Bundle savedInstanceState){
+        savedInstanceState.putString(SEARCH_TYPOLOGY, typology_call);
+        super.onSaveInstanceState(savedInstanceState);
     }
 }

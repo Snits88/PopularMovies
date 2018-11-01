@@ -46,7 +46,7 @@ public class DetailActivity extends AppCompatActivity
     private AppDatabase mDatabase;
     private Button mFavourite;
     private static final String SAVE = "Save as Favourite";
-    private static final String REMOVE = "Remove from Favourite";
+    private static final String REMOVE = "Remove from Favourites";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
